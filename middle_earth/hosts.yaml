@@ -1,0 +1,38 @@
+all:
+  hosts:
+    frodo:
+      ansible_host: 192.168.1.150
+      ip: 192.168.1.150
+      access_ip: 192.168.1.150
+      ansible_user: ubuntu
+    legolas:
+      ansible_host: 192.168.1.151
+      ip: 192.168.1.151
+      ansible_user: legolas 
+      access_ip: 192.168.1.151
+    gimli:
+      ansible_host: 192.168.1.152
+      ip: 192.168.1.152
+      ansible_user: gimli
+      access_ip: 192.168.1.152
+  children:
+    kube_control_plane:
+      hosts:
+        frodo:
+        legolas:
+    kube_node:
+      hosts:
+        frodo:
+        legolas:
+        gimli:
+    etcd:
+      hosts:
+        frodo:
+        legolas:
+        gimli:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}
